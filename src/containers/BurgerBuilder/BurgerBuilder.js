@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -17,7 +19,8 @@ class BurgerBuilder extends Component {
             cheese: 0,
             meat: 0
         },
-        totalPrice: 4
+        totalPrice: 4,
+        ordering: false
     }
 
     addIngredientHandler = type => {
@@ -33,7 +36,7 @@ class BurgerBuilder extends Component {
         const newPrice = oldPrice + priceAddition;
         this.setState({ 
             totalPrice: newPrice, 
-            ingredients: updatedIngredients
+            ingredients: updatedIngredients,
         })
     };
 
@@ -44,10 +47,17 @@ class BurgerBuilder extends Component {
                     ...this.state.ingredients,
                     [type]: this.state.ingredients[type] - 1
                 },
-                totalPrice: this.state.totalPrice - INGREDIENT_PRICES[type]
+                totalPrice: this.state.totalPrice - INGREDIENT_PRICES[type],
             })
         }
     };
+
+    ordering = () => {
+        this.setState({
+            ...this.state,
+            ordering: true
+        })
+    }
 
     render() {
         const disabledInfo = {
@@ -57,15 +67,18 @@ class BurgerBuilder extends Component {
         for (let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
-
         return (
             <>
+                <Modal ordering={this.state.ordering}>
+                    <OrderSummary ingredients={this.state.ingredients} />
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls 
                     disabledInfo={disabledInfo}
                     addIngredient={this.addIngredientHandler} 
                     removeIngredient={this.removeIngredientHandler}
                     price={this.state.totalPrice}
+                    ordering={this.ordering}
                 />
             </>
         );
