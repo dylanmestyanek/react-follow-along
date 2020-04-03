@@ -17,6 +17,7 @@ const BuildControls = props => (
                 label={control.label} 
                 type={control.type}
                 addIngredient={props.addIngredient}
+                removeIngredient={props.removeIngredient}
             /> )
         }
     </div>
