@@ -59,6 +59,17 @@ class BurgerBuilder extends Component {
         })
     }
 
+    stopOrdering = () => {
+        this.setState({
+            ...this.state,
+            ordering: false
+        })
+    }
+
+    continueOrdering = () => {
+        alert('You Continue!');
+    }
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients
@@ -69,8 +80,13 @@ class BurgerBuilder extends Component {
         }
         return (
             <>
-                <Modal ordering={this.state.ordering}>
-                    <OrderSummary ingredients={this.state.ingredients} />
+                <Modal ordering={this.state.ordering} stopOrdering={this.stopOrdering}>
+                    <OrderSummary 
+                        ingredients={this.state.ingredients} 
+                        stopOrdering={this.stopOrdering} 
+                        continueOrdering={this.continueOrdering}
+                        price={this.state.totalPrice}
+                    />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls 
