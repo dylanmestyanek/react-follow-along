@@ -2,10 +2,11 @@ import React from 'react';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import './Toolbar.css';
+import Menu from '../Menu/Menu';
 
-const Toolbar = () => (
+const Toolbar = props => (
     <header className="Toolbar">
-        <div>Menu</div>
+        <Menu toggleSideDrawer={props.toggleSideDrawer} />
         <Logo height="80%" />
         <nav className="DesktopOnly">
             <NavigationItems />
