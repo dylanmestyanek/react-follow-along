@@ -4,7 +4,7 @@ import './Modal.css';
 
 class Modal extends Component {
     shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.ordering !== this.props.ordering
+        return nextProps.ordering !== this.props.ordering || nextProps.children !== this.props.children
     }
 
     componentWillUpdate() {
