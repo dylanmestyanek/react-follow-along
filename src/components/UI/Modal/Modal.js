@@ -7,9 +7,9 @@ class Modal extends Component {
         return nextProps.ordering !== this.props.ordering || nextProps.children !== this.props.children
     }
 
-    componentWillUpdate() {
-        console.log("[Modal] Will update!!!!")
-    }
+    // componentWillUpdate() {
+    //     console.log("[Modal] Will update!!!!")
+    // }
 
     render() {
         return (
