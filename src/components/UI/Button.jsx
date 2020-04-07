@@ -6,6 +6,7 @@ const Button = props => (
         style={{
             color: props.buttonType === 'Danger' ? '#944317' : '#5C9210' 
         }}
+        disabled={props.disabled}
         onClick={(e) => props.clicked(e)}
     >
         {props.children}
@@ -24,9 +25,15 @@ const CustomButton = styled.button`
     padding: 10px;
     margin: 10px;
     font-weight: bold;
+    
+    &:disabled {
+        color: #ccc !important;
+        cursor: not-allowed;
+    }
 
     &:first-of-type {
         margin-left: 0;
         padding-left: 0;
     }
+
 `;

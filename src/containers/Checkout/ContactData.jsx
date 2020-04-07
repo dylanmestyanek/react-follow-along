@@ -20,7 +20,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             email: {
                 elementType: 'input',
@@ -33,7 +34,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             street: {
                 elementType: 'input',
@@ -46,7 +48,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             zipCode: {
                 elementType: 'input',
@@ -61,7 +64,8 @@ class ContactData extends Component {
                     minLength: 5,
                     maxLength: 5
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             country: {
                 elementType: 'input',
@@ -74,7 +78,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -85,9 +90,11 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: ''
+                value: '',
+                valid: true
             }
         },
+        formIsValid: false,
         loading: false
     }
 
@@ -122,19 +129,27 @@ class ContactData extends Component {
 
         const isValid = this.checkValidity(value, this.state.orderForm[name].validation)
 
+        let formIsValid = true;
+
         this.setState({
             orderForm: {
                 ...this.state.orderForm,
                 [name]: {
                     ...this.state.orderForm[name],
                     value: value,
-                    valid: isValid
+                    valid: isValid,
+                    touched: true
                 }
             }
         })
 
-        // console.log(isValid)
-        console.log(this.state)
+        for (let input in this.state.orderForm) {
+            formIsValid = this.state.orderForm[input].valid && formIsValid;
+        }
+
+        this.setState({
+            formIsValid: formIsValid
+        })
     }
 
     checkValidity = (value, rules) => {
@@ -176,10 +191,13 @@ class ContactData extends Component {
                                 elementType={element.config.elementType}
                                 elementConfig={element.config.elementConfig}
                                 value={element.config.value}
+                                isValid={!element.config.valid}
+                                shouldValidate={element.config.validation}
+                                touched={element.config.touched}
                                 changed={this.handleInputChange}
                             />
                         ))}
-                        <Button buttonType="Success" clicked={this.orderHandler}>Order</Button>
+                        <Button buttonType="Success" disabled={!this.state.formIsValid} clicked={this.orderHandler}>Order</Button>
                     </form>
                 ) : <Spinner />}
                 
