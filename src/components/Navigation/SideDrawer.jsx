@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../Logo';
-import NavigationItems from './NavigationItems';
-import Backdrop from '../UI/Backdrop';
+import NavigationItems from './NavigationItems.jsx';
+import Backdrop from '../UI/Backdrop.jsx';
 import styled from '@emotion/styled';
 
 const SideDrawer = props => {

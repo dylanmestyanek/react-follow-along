@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from '../UI/Button';
+import Button from '../UI/Button.jsx';
 
 class OrderSummary extends Component {
     render() {

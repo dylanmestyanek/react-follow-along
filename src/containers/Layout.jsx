@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import Toolbar from '../components/Navigation/Toolbar';
-import SideDrawer from '../components/Navigation/SideDrawer';
-import { css } from '@emotion/core';
+import Toolbar from '../components/Navigation/Toolbar.jsx';
+import SideDrawer from '../components/Navigation/SideDrawer.jsx';
 
 class Layout extends Component {
     state = {

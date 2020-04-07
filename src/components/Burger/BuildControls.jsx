@@ -1,5 +1,5 @@
 import React from 'react';
-import BuildControl from './BuildControl';
+import BuildControl from './BuildControl.jsx';
 import styled from '@emotion/styled';
 
 const controls = [

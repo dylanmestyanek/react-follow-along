@@ -1,5 +1,5 @@
 import React from 'react';
-import BurgerIngredient from './BurgerIngredient';
+import BurgerIngredient from './BurgerIngredient.jsx';
 import styled from '@emotion/styled';
 
 const Burger = props => {
@@ -31,7 +31,7 @@ const BurgerContainer = styled.div`
     width: 100%;
     margin: auto;
     height: 250px;
-    overflow: scroll;
+    overflow-y: auto;
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem;

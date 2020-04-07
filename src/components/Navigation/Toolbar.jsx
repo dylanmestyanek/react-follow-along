@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../Logo';
-import NavigationItems from './NavigationItems';
-import Menu from './Menu';
+import NavigationItems from './NavigationItems.jsx';
+import Menu from './Menu.jsx';
 import styled from '@emotion/styled';
 
 const Toolbar = props => (
