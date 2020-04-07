@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './Layout.css';
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
+import Toolbar from '../components/Navigation/Toolbar';
+import SideDrawer from '../components/Navigation/SideDrawer';
+import { css } from '@emotion/core';
 
 class Layout extends Component {
     state = {
@@ -17,7 +17,7 @@ class Layout extends Component {
             <>
                 <Toolbar toggleSideDrawer={this.closeSideDrawer} />
                 <SideDrawer showSideDrawer={this.state.showSideDrawer} closeSideDrawer={this.closeSideDrawer} />
-                <main className="Content">
+                <main style={{ marginTop: '72px' }}>
                     {this.props.children}
                 </main>
             </>
