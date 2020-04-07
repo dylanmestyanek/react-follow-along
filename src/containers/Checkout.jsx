@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import styled from '@emotion/styled';
+import CheckoutSummary from '../components/CheckoutSummary';
 
 class Checkout extends Component { 
+    state = {
+        ingredients: {
+            salad: 1,
+            meat: 1,
+            cheese: 1,
+            bacon: 1
+        }
+    }
+    
     render() {
         return (
-            <Header>
-                hi
-            </Header>
-
+            <div>
+                <CheckoutSummary ingredients={this.state.ingredients} />
+            </div>
         );
     }
 }
 
 export default Checkout;
-
-const Header = styled.header`
-    width: 100%;
-    height: 100%;
-    font-size: 10rem;
-`;

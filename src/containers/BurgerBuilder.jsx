@@ -97,6 +97,7 @@ class BurgerBuilder extends Component {
         axios.post('/orders.json', newOrder)
             .then(response => {
                 this.setState({ loading: false, ordering: false });
+                this.props.history.push("/order-summary")
             })
             .catch(error => {
                 this.setState({ loading: false, ordering: false });
