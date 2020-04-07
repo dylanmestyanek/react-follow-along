@@ -4,14 +4,67 @@ import styled from '@emotion/styled';
 import axios from '../../axios-orders';
 import Button from '../../components/UI/Button';
 import Spinner from '../../components/UI/Spinner';
+import Input from '../../components/UI/Input';
 
 class ContactData extends Component { 
     state = {
-        name: '',
-        email: '',
-        address: {
-            street: '',
-            postalCode: ''
+        orderForm: {
+            name: {
+                elementType: 'input',
+                elementConfig: {
+                    name: 'name',
+                    type: 'text',
+                    placeholder: 'Name'
+                },
+                value: ''
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    name: 'email',
+                    type: 'email',
+                    placeholder: 'E-Mail'
+                },
+                value: ''
+            },
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    name: 'street',
+                    type: 'text',
+                    placeholder: 'Street'
+                },
+                value: ''
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    name: 'zipCode',
+                    type: 'text',
+                    placeholder: 'Zip Code'
+                },
+                value: ''
+            },
+            country: {
+                elementType: 'input',
+                elementConfig: {
+                    name: 'country', 
+                    type: 'text',
+                    placeholder: 'Country'
+                },
+                value: ''
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    name: 'deliveryMethod',
+                    options: [
+                        {value: 'fastest', displayValue: 'Fastest'},
+                        {value: 'cheapest', displayValue: 'Cheapest'}
+                    ]
+                },
+                value: ''
+            }
         },
         loading: false
     }
@@ -20,19 +73,16 @@ class ContactData extends Component {
         event.preventDefault();
         this.setState({ loading: true })
 
+        const formData = {};
+
+        for (let element in this.state.orderForm) {
+            formData[element] = this.state.orderForm[element].value
+        }
+
         const newOrder = {
             ingredients: this.props.ingredients,
             price: this.props.totalPrice,
-            customer: {
-                name: 'Dylan',
-                address: {
-                    street: 'Test St.',
-                    zipCode: 43252,
-                    country: 'United States'
-                },
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
+            ...formData
         }
 
         axios.post('/orders.json', newOrder)
@@ -45,16 +95,44 @@ class ContactData extends Component {
             });
     }
 
+    handleInputChange = e => {
+        const {name, value} = e.target;
+
+        this.setState({
+            orderForm: {
+                ...this.state.orderForm,
+                [name]: {
+                    ...this.state.orderForm[name],
+                    value: value
+                }
+            }
+        })
+    }
+
     render() {
+        const formElements = [];
+
+        for (let key in this.state.orderForm) {
+            formElements.push({
+                id: key,
+                config: this.state.orderForm[key]
+            })
+        }
+
         return (
             <ContactDataContainer>
                 <h4>Enter your Contact Data:</h4>
                 {!this.state.loading ? (
-                    <form>
-                        <input type="text" name="name" placeholder="Your name" />
-                        <input type="email" name="email" placeholder="Your email" />
-                        <input type="text" name="street" placeholder="Street" />
-                        <input type="text" name="postal" placeholder="Postal Code" />
+                    <form onSubmit={this.orderHandler}>
+                        {formElements.map(element => (
+                            <Input 
+                                key={element.id}
+                                elementType={element.config.elementType}
+                                elementConfig={element.config.elementConfig}
+                                value={element.config.value}
+                                changed={this.handleInputChange}
+                            />
+                        ))}
                         <Button buttonType="Success" clicked={this.orderHandler}>Order</Button>
                     </form>
                 ) : <Spinner />}
@@ -78,12 +156,6 @@ const ContactDataContainer = styled.div`
         box-shadow: 0 2px 3px #ccc;
         padding: 10px;
         box-sizing: border-box;
-
-        input {
-            margin: 3px 0;
-            padding: 3px 2px;
-            width: 50%;
-        }
     } 
 
     @media (min-width: 600px) {
