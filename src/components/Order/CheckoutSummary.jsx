@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core'
-import Burger from './Burger/Burger';
-import Button from './UI/Button';
+import Burger from '../Burger/Burger';
+import Button from '../UI/Button';
 import styled from '@emotion/styled';
 
 const CheckoutSummary = props => {

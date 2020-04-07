@@ -1,19 +1,18 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 const NavigationItem = props => (
-    <NavigationLink>
-        <a 
-            href={props.link}
-            className={props.active ? "active" : null}>
+    <NavLinkContainer>
+        <NavLink exact to={props.link}>
             {props.children}
-        </a>
-    </NavigationLink>
+        </NavLink>
+    </NavLinkContainer>
 );
 
 export default NavigationItem;
 
-const NavigationLink = styled.li`
+const NavLinkContainer = styled.li`
     margin: 10px 0;
     box-sizing: border-box;
     display: block;

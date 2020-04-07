@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 
 const NavigationItems = () => (
     <NavigationList>
-        <NavigationItem link="/" active>Burger Builder</NavigationItem>
-        <NavigationItem link="/">Checkout</NavigationItem>
+        <NavigationItem link="/">Burger Builder</NavigationItem>
+        <NavigationItem link="/orders">Orders</NavigationItem>
     </NavigationList>
 );
 
