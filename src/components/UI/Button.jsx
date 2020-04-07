@@ -6,7 +6,7 @@ const Button = props => (
         style={{
             color: props.buttonType === 'Danger' ? '#944317' : '#5C9210' 
         }}
-        onClick={() => props.clicked()}
+        onClick={(e) => props.clicked(e)}
     >
         {props.children}
     </CustomButton>

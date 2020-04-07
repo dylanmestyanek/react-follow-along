@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import Layout from './containers/Layout.jsx';
 import BurgerBuilder from './containers/BurgerBuilder.jsx';
-import Checkout from './containers/Checkout.jsx';
+import Checkout from './containers/Checkout/Checkout.jsx';
 
 
 class App extends Component {
