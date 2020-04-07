@@ -90,8 +90,9 @@ class ContactData extends Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: '',
-                valid: true
+                value: 'fastest',
+                validation: {},
+                valid: true,
             }
         },
         formIsValid: false,
@@ -127,7 +128,7 @@ class ContactData extends Component {
     handleInputChange = e => {
         const {name, value} = e.target;
 
-        const isValid = this.checkValidity(value, this.state.orderForm[name].validation)
+        const isValid = this.checkValidity(value, this.state.orderForm[name].validation);
 
         let formIsValid = true;
 
