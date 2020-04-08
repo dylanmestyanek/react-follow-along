@@ -3,9 +3,11 @@ import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 
 import axios from '../../axios-orders';
+import withErrorHandler from '../../components/hoc/withErrorHandler';
 import Button from '../../components/UI/Button';
 import Spinner from '../../components/UI/Spinner';
 import Input from '../../components/UI/Input';
+import { purchaseBurger } from '../../store/actions/index';
 
 class ContactData extends Component { 
     state = {
@@ -102,7 +104,6 @@ class ContactData extends Component {
 
     orderHandler = (event) => {
         event.preventDefault();
-        this.setState({ loading: true })
 
         const formData = {};
 
@@ -116,14 +117,7 @@ class ContactData extends Component {
             orderData: formData
         }
 
-        axios.post('/orders.json', newOrder)
-            .then(response => {
-                this.setState({ loading: false });
-                this.props.history.push('/');
-            })
-            .catch(error => {
-                this.setState({ loading: false });
-            });
+        this.props.purchaseBurger(newOrder)
     }
 
     handleInputChange = e => {
@@ -183,7 +177,7 @@ class ContactData extends Component {
         return (
             <ContactDataContainer>
                 <h4>Enter your Contact Data:</h4>
-                {!this.state.loading ? (
+                {!this.props.loading ? (
                     <form onSubmit={this.orderHandler}>
                         {formElements.map(element => (
                             <Input 
@@ -208,12 +202,19 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
-        totalPrice: state.totalPrice
+        ingredients: state.burgerBuilder.ingredients,
+        totalPrice: state.burgerBuilder.totalPrice,
+        loading: state.order.loading
     };
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+    return {
+        purchaseBurger: (newOrder) => dispatch(purchaseBurger(newOrder))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
 
 const ContactDataContainer = styled.div`
     margin: 20px auto;
