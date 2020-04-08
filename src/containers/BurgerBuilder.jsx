@@ -11,7 +11,6 @@ import withErrorHandler from '../components/hoc/withErrorHandler.jsx';
 import * as actionTypes from '../store/actions';
 class BurgerBuilder extends Component {
     state = {
-        totalPrice: 4,
         ordering: false,
         loading: false,
         error: false
@@ -26,7 +25,7 @@ class BurgerBuilder extends Component {
                 this.setState({ error: true })
             });
     }
-    
+
     ordering = () => {
         this.setState({
             ...this.state,
@@ -42,17 +41,7 @@ class BurgerBuilder extends Component {
     }
 
     continueOrdering = () => {
-        const queryParams = [];
-        for (let i in this.state.ingredients) {
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
-        }
-        
-        queryParams.push(`price=${this.state.totalPrice}`)
-
-        this.props.history.push({
-            pathname: '/checkout',
-            search: '?' + queryParams.join('&')
-        })
+        this.props.history.push('/checkout');
     }
 
     render() {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
+import { connect } from 'react-redux';
 
 import axios from '../../axios-orders';
 import Button from '../../components/UI/Button';
@@ -127,10 +128,15 @@ class ContactData extends Component {
 
     handleInputChange = e => {
         const {name, value} = e.target;
+        let formIsValid = true;
 
         const isValid = this.checkValidity(value, this.state.orderForm[name].validation);
 
-        let formIsValid = true;
+        for (let input in this.state.orderForm) {
+            if (input !== name) {
+                formIsValid = this.state.orderForm[input].valid && formIsValid;
+            }
+        }
 
         this.setState({
             orderForm: {
@@ -141,14 +147,7 @@ class ContactData extends Component {
                     valid: isValid,
                     touched: true
                 }
-            }
-        })
-
-        for (let input in this.state.orderForm) {
-            formIsValid = this.state.orderForm[input].valid && formIsValid;
-        }
-
-        this.setState({
+            },
             formIsValid: formIsValid
         })
     }
@@ -207,7 +206,14 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.totalPrice
+    };
+};
+
+export default connect(mapStateToProps)(ContactData);
 
 const ContactDataContainer = styled.div`
     margin: 20px auto;
