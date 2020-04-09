@@ -23,12 +23,12 @@ class App extends Component {
                   <Route path="/orders" component={lazy(() => import('./containers/Orders'))} />
                   <Route path="/logout" component={lazy(() => import('./containers/Auth/Logout'))} />
                 </Suspense>
-                  <Route path="/" exact component={BurgerBuilder} />
+                <Route path="/" exact component={BurgerBuilder} />
               </>)}
+            <Route path="/" exact component={BurgerBuilder} />
             <Suspense fallback={<h1>Loading...</h1>}>
               <Route path="/auth" component={lazy(() => import('./containers/Auth/Auth'))} />
             </Suspense>
-            <Route path="/" exact component={BurgerBuilder} />
             <Redirect to="/" />
           </Switch>
         </Layout>
