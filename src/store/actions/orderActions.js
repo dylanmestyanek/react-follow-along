@@ -2,7 +2,8 @@ import axios from '../../axios-orders';
 import { 
     START_PURCHASING,
     SUCCESS_PURCHASING,
-    FAILURE_PURCHASING
+    FAILURE_PURCHASING,
+    INITIALIZE_PURCHASE
 } from './actionsTypes';
 
 export const purchaseBurger = (orderData) => dispatch => {
@@ -16,5 +17,9 @@ export const purchaseBurger = (orderData) => dispatch => {
             .catch(error => {
                 dispatch({ type: FAILURE_PURCHASING, error: error })
             });
+};
+
+export const initializePurchase = () => { 
+    return { type: INITIALIZE_PURCHASE };
 };
 
