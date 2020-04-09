@@ -6,6 +6,7 @@ const NavigationItems = () => (
     <NavigationList>
         <NavigationItem link="/">Burger Builder</NavigationItem>
         <NavigationItem link="/orders">Orders</NavigationItem>
+        <NavigationItem link="/auth">Sign Up</NavigationItem>
     </NavigationList>
 );
 

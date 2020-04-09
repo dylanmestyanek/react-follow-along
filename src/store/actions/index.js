@@ -9,3 +9,7 @@ export {
     initializePurchase,
     fetchOrders
 } from './orderActions';
+
+export { 
+    authorizeUser
+} from './authActions';
