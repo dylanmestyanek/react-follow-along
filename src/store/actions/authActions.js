@@ -35,7 +35,6 @@ export const authorizeUser = (email, password, isSignIn) => dispatch => {
             }, (+res.data.expiresIn * 10));
         })
         .catch(error => {
-            console.log(error.message)
             dispatch({ 
                 type: AUTH_FAIL, 
                 error: { 
