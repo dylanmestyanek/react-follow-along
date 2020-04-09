@@ -8,6 +8,7 @@ import Button from '../../components/UI/Button';
 import Spinner from '../../components/UI/Spinner';
 import Input from '../../components/UI/Input';
 import { purchaseBurger } from '../../store/actions/index';
+import { checkValidity } from '../../utils/checkValidity';
 
 class ContactData extends Component { 
     state = {
@@ -125,7 +126,7 @@ class ContactData extends Component {
         const {name, value} = e.target;
         let formIsValid = true;
 
-        const isValid = this.checkValidity(value, this.state.orderForm[name].validation);
+        const isValid = checkValidity(value, this.state.orderForm[name].validation);
 
         for (let input in this.state.orderForm) {
             if (input !== name) {
@@ -145,24 +146,6 @@ class ContactData extends Component {
             },
             formIsValid: formIsValid
         })
-    }
-
-    checkValidity = (value, rules) => {
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
     }
 
     render() {

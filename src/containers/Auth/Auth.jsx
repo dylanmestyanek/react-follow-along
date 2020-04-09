@@ -7,6 +7,7 @@ import Input from '../../components/UI/Input';
 import Button from '../../components/UI/Button';
 import { authorizeUser, setAuthRedirectPath } from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
+import { checkValidity } from '../../utils/checkValidity';
 
 class Auth extends Component { 
     state = {
@@ -56,7 +57,7 @@ class Auth extends Component {
         const {name, value} = e.target;
         let formIsValid = true;
 
-        const isValid = this.checkValidity(value, this.state.controls[name].validation);
+        const isValid = checkValidity(value, this.state.controls[name].validation);
 
         for (let input in this.state.controls) {
             formIsValid = this.state.controls[input].valid && formIsValid;
@@ -74,24 +75,6 @@ class Auth extends Component {
             },
             formIsValid: formIsValid
         })
-    }
-
-    checkValidity = (value, rules) => {
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
     }
 
     handleSubmit = e => {
