@@ -11,5 +11,6 @@ export {
 } from './orderActions';
 
 export { 
-    authorizeUser
+    authorizeUser,
+    logout
 } from './authActions';

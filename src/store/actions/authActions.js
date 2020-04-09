@@ -41,5 +41,5 @@ export const authorizeUser = (email, password, isSignIn) => dispatch => {
 };
 
 export const logout = () => {
-
+    return { type: AUTH_LOGOUT };
 };

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 
-import Input from '../components/UI/Input';
-import Button from '../components/UI/Button';
-import { authorizeUser } from '../store/actions/index';
-import Spinner from '../components/UI/Spinner';
+import Input from '../../components/UI/Input';
+import Button from '../../components/UI/Button';
+import { authorizeUser } from '../../store/actions/index';
+import Spinner from '../../components/UI/Spinner';
 
 class Auth extends Component { 
     state = {
