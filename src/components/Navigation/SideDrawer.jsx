@@ -8,7 +8,7 @@ const SideDrawer = props => {
     return (
         <>
             <Backdrop ordering={props.showSideDrawer} stopOrdering={props.closeSideDrawer}/>
-            <SideDrawerContainer style={{ transform: props.showSideDrawer ? "translateX(0)" : "translateX(-100%"}}>
+            <SideDrawerContainer style={{ transform: props.showSideDrawer ? "translateX(0)" : "translateX(-100%"}} onClick={props.closeSideDrawer}>
                 <Logo height="11%" />
                 <nav>
                     <NavigationItems isAuthenticated={props.isAuthenticated} />
