@@ -8,7 +8,13 @@ import OrderSummary from '../components/Burger/OrderSummary.jsx';
 import axios from '../axios-orders';
 import Spinner from '../components/UI/Spinner.jsx';
 import withErrorHandler from '../components/hoc/withErrorHandler.jsx';
-import { addIngredient, removeIngredient, fetchIngredients, initializePurchase } from '../store/actions/index';
+import { 
+    addIngredient, 
+    removeIngredient, 
+    fetchIngredients, 
+    initializePurchase, 
+    setAuthRedirectPath 
+} from '../store/actions/index';
 
 class BurgerBuilder extends Component {
     state = {
@@ -22,10 +28,12 @@ class BurgerBuilder extends Component {
     }
 
     ordering = () => {
-        this.setState({
-            ...this.state,
-            ordering: true
-        })
+        if (this.props.isAuthenticated) {
+            this.setState({ ...this.state, ordering: true })
+        } else {
+            this.props.setAuthRedirectPath('checkout');
+            this.props.history.push("/auth");
+        }
     }
 
     stopOrdering = () => {
@@ -62,15 +70,17 @@ class BurgerBuilder extends Component {
                         removeIngredient={this.props.removeIngredient}
                         price={this.props.totalPrice}
                         ordering={this.ordering}
+                        isAuthenticated={this.props.isAuthenticated}
                         />
                 </>
             );
             
             orderSummary = <OrderSummary 
-            ingredients={this.props.ingredients} 
-            stopOrdering={this.stopOrdering} 
-            continueOrdering={this.continueOrdering}
-            price={this.props.totalPrice}/>
+                ingredients={this.props.ingredients} 
+                stopOrdering={this.stopOrdering} 
+                continueOrdering={this.continueOrdering}
+                price={this.props.totalPrice}
+            />
         }
     
         return (
@@ -89,7 +99,8 @@ const mapStateToProps = state => {
     return {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     };
 };
 
@@ -98,7 +109,8 @@ const mapDispatchToProps = dispatch => {
         addIngredient: (ingredientName) => dispatch(addIngredient(ingredientName)),
         removeIngredient: (ingredientName) => dispatch(removeIngredient(ingredientName)),
         fetchIngredients: () => dispatch(fetchIngredients()),
-        initializePurchase: () => dispatch(initializePurchase())
+        initializePurchase: () => dispatch(initializePurchase()),
+        setAuthRedirectPath: (path) => dispatch(setAuthRedirectPath(path))
     };
 };
 

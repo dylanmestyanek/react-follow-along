@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 const NavigationItems = (props) => (
     <NavigationList>
         <NavigationItem link="/">Burger Builder</NavigationItem>
-        <NavigationItem link="/orders">Orders</NavigationItem>
+        {props.isAuthenticated && <NavigationItem link="/orders">Orders</NavigationItem>}
         {props.isAuthenticated 
             ? <NavigationItem link="/logout">Log Out</NavigationItem>
             : <NavigationItem link="/auth">Sign Up</NavigationItem>}

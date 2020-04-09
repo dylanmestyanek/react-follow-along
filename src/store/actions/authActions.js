@@ -3,7 +3,8 @@ import {
     AUTH_START,
     AUTH_SUCCESS,
     AUTH_FAIL,
-    AUTH_LOGOUT
+    AUTH_LOGOUT,
+    SET_AUTH_REDIRECT_PATH
 } from './actionsTypes';
 
 export const authorizeUser = (email, password, isSignIn) => dispatch => {
@@ -43,3 +44,7 @@ export const authorizeUser = (email, password, isSignIn) => dispatch => {
 export const logout = () => {
     return { type: AUTH_LOGOUT };
 };
+
+export const setAuthRedirectPath = path => {
+    return { type: SET_AUTH_REDIRECT_PATH, path: path }
+}

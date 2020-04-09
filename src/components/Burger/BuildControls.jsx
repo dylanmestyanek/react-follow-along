@@ -24,9 +24,8 @@ const BuildControls = props => (
         ))}
         <button 
             className="OrderButton" 
-            disabled={Object.values(props.disabledInfo).filter(bool => bool !== true).length === 0}
-            onClick={() => props.ordering()}
-        >Order Now</button>
+            disabled={props.isAuthenticated && Object.values(props.disabledInfo).filter(bool => bool !== true).length === 0}
+            onClick={() => props.ordering()}>{props.isAuthenticated ? 'Order Now' : 'Sign Up To Order'}</button>
     </BuildControlsContainer>
 );
 

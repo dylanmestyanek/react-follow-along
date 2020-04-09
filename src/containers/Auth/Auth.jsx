@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Input from '../../components/UI/Input';
 import Button from '../../components/UI/Button';
-import { authorizeUser } from '../../store/actions/index';
+import { authorizeUser, setAuthRedirectPath } from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
 
 class Auth extends Component { 
@@ -43,6 +44,12 @@ class Auth extends Component {
         },
         formIsValid: false,
         isSignIn: false
+    }
+
+    componentDidMount(){
+        if (!this.props.buildingBurger && this.props.authRedirectPath){
+            this.props.setAuthRedirectPath();
+        }
     }
 
     handleInputChange = e => {
@@ -112,6 +119,7 @@ class Auth extends Component {
         return (
             !this.props.loading ? (
                 <AuthContainer>
+                    {this.props.isAuthenticated && <Redirect to={`${this.props.authRedirectPath}`} />}
                     {this.props.error && <p>{this.props.error.title}: {this.props.error.details}</p>}
                     <form onSubmit={this.handleSubmit}>
                         {
@@ -142,13 +150,17 @@ class Auth extends Component {
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuthenticated: state.auth.token !== null,
+        buildingBurger: state.burgerBuilder.building,
+        authRedirectPath: state.auth.authRedirectPath
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        authorizeUser: (email, password, isSignIn) => dispatch(authorizeUser(email, password, isSignIn))
+        authorizeUser: (email, password, isSignIn) => dispatch(authorizeUser(email, password, isSignIn)),
+        setAuthRedirectPath: () => dispatch(setAuthRedirectPath('/'))
     }
 }
 
