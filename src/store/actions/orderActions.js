@@ -3,7 +3,10 @@ import {
     START_PURCHASING,
     SUCCESS_PURCHASING,
     FAILURE_PURCHASING,
-    INITIALIZE_PURCHASE
+    INITIALIZE_PURCHASE,
+    FETCH_ORDERS_SUCCESS,
+    FETCH_ORDERS_FAIL,
+    FETCH_ORDERS_START
 } from './actionsTypes';
 
 export const purchaseBurger = (orderData) => dispatch => {
@@ -23,3 +26,20 @@ export const initializePurchase = () => {
     return { type: INITIALIZE_PURCHASE };
 };
 
+export const fetchOrders = () => dispatch => {
+    dispatch({ type: FETCH_ORDERS_START });
+
+    axios.get('/orders.json')
+        .then(res => {
+            const fetchedOrders = [];
+            for (let key in res.data) {
+                fetchedOrders.push({
+                    ...res.data[key],
+                    id: key
+                });
+            }
+            
+            dispatch({ type: FETCH_ORDERS_SUCCESS , orders: fetchedOrders })
+        })
+        .catch(error => dispatch({ type: FETCH_ORDERS_FAIL, error: error }))
+};

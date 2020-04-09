@@ -1,4 +1,12 @@
-import { SUCCESS_PURCHASING, FAILURE_PURCHASING, START_PURCHASING, INITIALIZE_PURCHASE } from '../actions/actionsTypes';
+import { 
+    SUCCESS_PURCHASING, 
+    FAILURE_PURCHASING,
+    START_PURCHASING, 
+    INITIALIZE_PURCHASE,
+    FETCH_ORDERS_START,
+    FETCH_ORDERS_SUCCESS,
+    FETCH_ORDERS_FAIL
+} from '../actions/actionsTypes';
 
 const initialState = {
     orders: [],
@@ -32,6 +40,25 @@ const reducer = (state=initialState, action) => {
             };
         
         case FAILURE_PURCHASING:
+            return {
+                ...state,
+                loading: false
+            };
+
+        case FETCH_ORDERS_START:
+            return {
+                ...state,
+                loading: true
+            };
+
+        case FETCH_ORDERS_SUCCESS:
+            return {
+                ...state,
+                orders: action.orders,
+                loading: false
+            };
+
+        case FETCH_ORDERS_FAIL:
             return {
                 ...state,
                 loading: false
