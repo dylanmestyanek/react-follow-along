@@ -1,12 +1,17 @@
 import React from 'react';
+
 import NavigationItem from './NavigationItem.jsx';
 import styled from '@emotion/styled';
 
-const NavigationItems = () => (
+const NavigationItems = (props) => (
     <NavigationList>
         <NavigationItem link="/">Burger Builder</NavigationItem>
         <NavigationItem link="/orders">Orders</NavigationItem>
-        <NavigationItem link="/auth">Sign Up</NavigationItem>
+        {
+        props.isAuthenticated 
+            ? <NavigationItem link="/logout">Log Out</NavigationItem>
+            : <NavigationItem link="/auth">Sign Up</NavigationItem>
+        }
     </NavigationList>
 );
 

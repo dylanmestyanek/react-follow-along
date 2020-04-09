@@ -9,10 +9,10 @@ import {
     FETCH_ORDERS_START
 } from './actionsTypes';
 
-export const purchaseBurger = (orderData) => dispatch => {
+export const purchaseBurger = (orderData, token) => dispatch => {
     dispatch({ type: START_PURCHASING });
 
-    axios.post('/orders.json', orderData)
+    axios.post(`/orders.json?auth=${token}`, orderData)
             .then(response => {
                 console.log(response)
                 dispatch({ type: SUCCESS_PURCHASING, orderId: response.data.name, orderData: orderData })
@@ -26,10 +26,10 @@ export const initializePurchase = () => {
     return { type: INITIALIZE_PURCHASE };
 };
 
-export const fetchOrders = () => dispatch => {
+export const fetchOrders = token => dispatch => {
     dispatch({ type: FETCH_ORDERS_START });
 
-    axios.get('/orders.json')
+    axios.get(`/orders.json?auth=${token}`)
         .then(res => {
             const fetchedOrders = [];
             for (let key in res.data) {

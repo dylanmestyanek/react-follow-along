@@ -11,7 +11,7 @@ const SideDrawer = props => {
             <SideDrawerContainer style={{ transform: props.showSideDrawer ? "translateX(0)" : "translateX(-100%"}}>
                 <Logo height="11%" />
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems isAuthenticated={props.isAuthenticated} />
                 </nav>
             </SideDrawerContainer>
         </>

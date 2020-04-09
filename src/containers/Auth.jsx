@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Input from '../components/UI/Input';
 import Button from '../components/UI/Button';
 import { authorizeUser } from '../store/actions/index';
+import Spinner from '../components/UI/Spinner';
 
 class Auth extends Component { 
     state = {
@@ -94,7 +95,7 @@ class Auth extends Component {
 
     toggleAuthMode = () => {
         this.setState(prevState => {
-            return { isSignUp: !this.state.isSignUp }
+            return { isSignIn: !this.state.isSignIn }
         })
     }
 
@@ -107,32 +108,43 @@ class Auth extends Component {
                 config: this.state.controls[key]
             })
         }
+
         return (
-            <AuthContainer>
-                <form onSubmit={this.handleSubmit}>
-                    {
-                        formElements.map(element => (
-                            <Input 
-                                key={element.id}
-                                elementType={element.config.elementType}
-                                elementConfig={element.config.elementConfig}
-                                value={element.config.value}
-                                isValid={!element.config.valid}
-                                shouldValidate={element.config.validation}
-                                touched={element.config.touched}
-                                changed={this.handleInputChange}
-                            />
-                        ))
-                    }
-                    <Button buttonType="Success" disabled={!this.state.formIsValid} clicked={this.handleSubmit}>Submit</Button>
+            !this.props.loading ? (
+                <AuthContainer>
+                    {this.props.error && <p>{this.props.error.title}: {this.props.error.details}</p>}
+                    <form onSubmit={this.handleSubmit}>
+                        {
+                            formElements.map(element => (
+                                <Input 
+                                    key={element.id}
+                                    elementType={element.config.elementType}
+                                    elementConfig={element.config.elementConfig}
+                                    value={element.config.value}
+                                    isValid={!element.config.valid}
+                                    shouldValidate={element.config.validation}
+                                    touched={element.config.touched}
+                                    changed={this.handleInputChange}
+                                />
+                            ))
+                        }
+                        <Button buttonType="Success" disabled={!this.state.formIsValid} clicked={this.handleSubmit}>Submit</Button>
+                    </form>
                     <Button buttonType="Danger" clicked={this.toggleAuthMode}>
-                        {this.state.isSignUp ? 'Already a user?' : 'Sign up here!'}
+                        {!this.state.isSignIn ? 'Already a user?' : 'Sign up here!'}
                     </Button>
-                </form>
-            </AuthContainer>
+                </AuthContainer>
+            ) : <Spinner />
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -140,7 +152,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
 
 const AuthContainer = styled.div`
     margin: 20px auto;
