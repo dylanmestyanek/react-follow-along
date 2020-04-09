@@ -17,16 +17,10 @@ const initialState = {
 const reducer = (state=initialState, action) => {
     switch(action.type){
         case INITIALIZE_PURCHASE:
-            return {
-                ...state,
-                purchased: false
-            };
+            return { ...state, purchased: false };
 
         case START_PURCHASING:
-            return {
-                ...state,
-                loading: true
-            };
+            return { ...state, loading: true };
 
         case SUCCESS_PURCHASING:
             return {
@@ -40,29 +34,16 @@ const reducer = (state=initialState, action) => {
             };
         
         case FAILURE_PURCHASING:
-            return {
-                ...state,
-                loading: false
-            };
+            return { ...state, loading: false };
 
         case FETCH_ORDERS_START:
-            return {
-                ...state,
-                loading: true
-            };
+            return { ...state, loading: true };
 
         case FETCH_ORDERS_SUCCESS:
-            return {
-                ...state,
-                orders: action.orders,
-                loading: false
-            };
+            return { ...state, orders: action.orders, loading: false };
 
         case FETCH_ORDERS_FAIL:
-            return {
-                ...state,
-                loading: false
-            };
+            return { ...state, loading: false };
 
         default:
             return state;
