@@ -7,8 +7,8 @@ import withErrorHandler from '../components/hoc/withErrorHandler';
 import { fetchOrders } from '../store/actions/index';
 import Spinner from '../components/UI/Spinner';
 class Orders extends Component { 
-    componentWillMount() {
-        this.props.fetchOrders(this.props.token);
+    componentDidMount() {
+        this.props.fetchOrders(this.props.token, this.props.userId);
     }
 
     render() {
@@ -18,7 +18,7 @@ class Orders extends Component {
                     {
                         this.props.orders.map(order => (
                             <Order key={order.id} ingredients={order.ingredients} price={order.price} />
-                            ))
+                        ))
                     }
                 </div>
             ) : <Spinner />
@@ -30,13 +30,14 @@ const mapStateToProps = state => {
     return {
         orders: state.order.orders,
         loading: state.order.loading,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchOrders: (token) => dispatch(fetchOrders(token))
+        fetchOrders: (token, userId) => dispatch(fetchOrders(token, userId))
     };
 };
 
