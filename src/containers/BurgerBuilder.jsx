@@ -16,7 +16,7 @@ import {
     setAuthRedirectPath 
 } from '../store/actions/index';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     state = {
         ordering: false,
         loading: false,
@@ -63,8 +63,9 @@ class BurgerBuilder extends Component {
         if (this.props.ingredients) {
             burger = (
                 <>
-                    <Burger ingredients={this.props.ingredients} />
+                    <Burger data-testid="Burger" ingredients={this.props.ingredients} />
                     <BuildControls 
+                        data-testid="BuildControls"
                         disabledInfo={disabledInfo}
                         addIngredient={this.props.addIngredient} 
                         removeIngredient={this.props.removeIngredient}
