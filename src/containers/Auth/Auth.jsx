@@ -102,7 +102,6 @@ class Auth extends Component {
         return (
             !this.props.loading ? (
                 <AuthContainer>
-                        {this.props.isAuthenticated && <Redirect to={`${this.props.authRedirectPath}`} />}
                         {this.props.error && <p>{this.props.error.title}: {this.props.error.details}</p>}
                     <form onSubmit={this.handleSubmit}>
                         {

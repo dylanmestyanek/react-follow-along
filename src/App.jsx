@@ -24,13 +24,13 @@ class App extends Component {
                   <Route path="/logout" component={lazy(() => import('./containers/Auth/Logout'))} />
                 </Suspense>
                 <Route path="/" exact component={BurgerBuilder} />
-                <Redirect to="/" />
+                <Redirect to={this.props.authRedirectPath} />
               </>)}
             <Route path="/" exact component={BurgerBuilder} />
             <Suspense fallback={<h1>Loading...</h1>}>
               <Route path="/auth" component={lazy(() => import('./containers/Auth/Auth'))} />
             </Suspense>
-            <Redirect to="/" />
+            <Redirect to={this.props.authRedirectPath} />
           </Switch>
         </Layout>
       </div>
@@ -40,7 +40,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.token !== null 
+    isAuthenticated: state.auth.token !== null,
+    authRedirectPath: state.auth.authRedirectPath
   }
 }
 
