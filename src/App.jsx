@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -6,36 +6,41 @@ import Layout from './containers/Layout.jsx';
 import BurgerBuilder from './containers/BurgerBuilder.jsx';
 import { checkAuthState } from './store/actions/index';
 
-class App extends Component {
-  componentDidMount(){
-    this.props.checkAuthState();
-  }
+const App = props => {
+  useEffect(() => {
+    props.checkAuthState();    
+  }, [props]);
 
-  render() {
+    let routes = (
+      <Switch>
+        <Route path="/auth" component={lazy(() => import('./containers/Auth/Auth'))} />
+        <Route path="/" exact component={BurgerBuilder} />
+        <Redirect to='/' />
+      </Switch>
+    );
+    
+    if (props.isAuthenticated) {
+     routes = (
+      <Switch>
+          <Route path="/checkout" component={lazy(() => import('./containers/Checkout/Checkout'))} />
+          <Route path="/orders" component={lazy(() => import('./containers/Orders'))} />
+          <Route path="/auth" component={lazy(() => import('./containers/Auth/Auth'))} />
+          <Route path="/logout" component={lazy(() => import('./containers/Auth/Logout'))} />
+          <Route path="/" exact component={BurgerBuilder} />
+          <Redirect to='/' />
+        </Switch>
+     );
+    }
+
     return (
       <div>
         <Layout>
-          <Switch>
-            {this.props.isAuthenticated && (
-              <>
-                <Suspense fallback={<h1>Loading...</h1>}>
-                  <Route path="/checkout" component={lazy(() => import('./containers/Checkout/Checkout'))} />
-                  <Route path="/orders" component={lazy(() => import('./containers/Orders'))} />
-                  <Route path="/logout" component={lazy(() => import('./containers/Auth/Logout'))} />
-                </Suspense>
-                <Route path="/" exact component={BurgerBuilder} />
-                <Redirect to={this.props.authRedirectPath} />
-              </>)}
-            <Route path="/" exact component={BurgerBuilder} />
-            <Suspense fallback={<h1>Loading...</h1>}>
-              <Route path="/auth" component={lazy(() => import('./containers/Auth/Auth'))} />
-            </Suspense>
-            <Redirect to={this.props.authRedirectPath} />
-          </Switch>
+          <Suspense fallback={<h2>Loading...</h2>}>
+            {routes}
+          </Suspense>
         </Layout>
       </div>
     );
-  }
 }
 
 const mapStateToProps = state => {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -9,8 +9,8 @@ import { authorizeUser, setAuthRedirectPath } from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner';
 import { checkValidity } from '../../utils/checkValidity';
 
-class Auth extends Component { 
-    state = {
+const Auth = props => { 
+    const [authState, setAuthState] = useState({
         controls: {
             email: {
                 elementType: 'input',
@@ -45,29 +45,30 @@ class Auth extends Component {
         },
         formIsValid: false,
         isSignIn: false
-    }
+    });
 
-    componentDidMount(){
-        if (!this.props.buildingBurger && this.props.authRedirectPath){
-            this.props.setAuthRedirectPath();
+    useEffect(() => {
+        if (!props.buildingBurger && props.authRedirectPath){
+            props.setAuthRedirectPath();
         }
-    }
+        //eslint-disable-next-line
+    }, []);
 
-    handleInputChange = e => {
+    const handleInputChange = e => {
         const {name, value} = e.target;
         let formIsValid = true;
 
-        const isValid = checkValidity(value, this.state.controls[name].validation);
+        const isValid = checkValidity(value, authState.controls[name].validation);
 
-        for (let input in this.state.controls) {
-            formIsValid = this.state.controls[input].valid && formIsValid;
+        for (let input in authState.controls) {
+            formIsValid = authState.controls[input].valid && formIsValid;
         }
 
-        this.setState({
+        setAuthState({
             controls: {
-                ...this.state.controls,
+                ...authState.controls,
                 [name]: {
-                    ...this.state.controls[name],
+                    ...authState.controls[name],
                     value: value,
                     valid: isValid,
                     touched: true
@@ -77,56 +78,56 @@ class Auth extends Component {
         })
     }
 
-    handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
-        const { email, password } = this.state.controls;
-        this.props.authorizeUser(email.value, password.value, this.state.isSignIn, this.props.history);
+        const { email, password } = authState.controls;
+        props.authorizeUser(email.value, password.value, authState.isSignIn, props.history);
     }
 
-    toggleAuthMode = () => {
-        this.setState(prevState => {
-            return { isSignIn: !this.state.isSignIn }
+    const toggleAuthMode = () => {
+        setAuthState({
+            ...authState, 
+            isSignIn: !authState.isSignIn
         })
     }
 
-    render() {
-        const formElements = [];
+    const formElements = [];
 
-        for (let key in this.state.controls) {
-            formElements.push({
-                id: key,
-                config: this.state.controls[key]
-            })
-        }
-
-        return (
-            !this.props.loading ? (
-                <AuthContainer>
-                        {this.props.error && <p>{this.props.error.title}: {this.props.error.details}</p>}
-                    <form onSubmit={this.handleSubmit}>
-                        {
-                            formElements.map(element => (
-                                <Input 
-                                    key={element.id}
-                                    elementType={element.config.elementType}
-                                    elementConfig={element.config.elementConfig}
-                                    value={element.config.value}
-                                    isValid={!element.config.valid}
-                                    shouldValidate={element.config.validation}
-                                    touched={element.config.touched}
-                                    changed={this.handleInputChange}
-                                />
-                            ))
-                        }
-                        <Button buttonType="Success" disabled={!this.state.formIsValid} clicked={this.handleSubmit}>Submit</Button>
-                    </form>
-                    <Button buttonType="Danger" clicked={this.toggleAuthMode}>
-                        {!this.state.isSignIn ? 'Already a user?' : 'Sign up here!'}
-                    </Button>
-                </AuthContainer>
-            ) : <Spinner />
-        );
+    for (let key in authState.controls) {
+        formElements.push({
+            id: key,
+            config: authState.controls[key]
+        })
     }
+
+    return (
+        !props.loading ? (
+            <AuthContainer>
+                    {props.isAuthenticated && <Redirect to={props.authRedirectPath} />}
+                    {props.error && <p>{props.error.title}: {props.error.details}</p>}
+                <form onSubmit={handleSubmit}>
+                    {
+                        formElements.map(element => (
+                            <Input 
+                                key={element.id}
+                                elementType={element.config.elementType}
+                                elementConfig={element.config.elementConfig}
+                                value={element.config.value}
+                                isValid={!element.config.valid}
+                                shouldValidate={element.config.validation}
+                                touched={element.config.touched}
+                                changed={handleInputChange}
+                            />
+                        ))
+                    }
+                    <Button buttonType="Success" disabled={!authState.formIsValid} clicked={handleSubmit}>Submit</Button>
+                </form>
+                <Button buttonType="Danger" clicked={toggleAuthMode}>
+                    {!authState.isSignIn ? 'Already a user?' : 'Sign up here!'}
+                </Button>
+            </AuthContainer>
+        ) : <Spinner />
+    );
 }
 
 const mapStateToProps = state => {

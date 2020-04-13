@@ -24,6 +24,8 @@ const Input = props => {
             inputElement = <input className={(props.isValid && props.shouldValidate && props.touched) ? "Invalid" : null}{...props.elementConfig} value={props.value} onChange={props.changed} />;
     }
 
+     
+
     return (
         <InputContainer>
             <label>{props.label}</label>

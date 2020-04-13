@@ -1,35 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary';
 import ContactData from './ContactData';
 
-class Checkout extends Component { 
-    checkoutCancelled = () => {
-        this.props.history.goBack();
+const Checkout = props => { 
+    const checkoutCancelled = () => {
+        props.history.goBack();
     }
 
-    checkoutContinued = () => {
-        this.props.history.replace('/checkout/contact-data');
+    const checkoutContinued = () => {
+        props.history.replace('/checkout/contact-data');
     }
     
-    render() {
-        const purchasedRedirect = this.props.purchased && <Redirect to="/" />;
-        return (
-                this.props.ingredients ? (
-                    <div>
-                        {purchasedRedirect}
-                        <CheckoutSummary 
-                            ingredients={this.props.ingredients} 
-                            checkoutCancelled={this.checkoutCancelled}
-                            checkoutContinued={this.checkoutContinued}
-                        />
-                        <Route path={`${this.props.match.path}/contact-data`} component={ContactData} />
-                    </div>
-                ) : <Redirect to="/" />
-        );
-    }
+    const purchasedRedirect = props.purchased && <Redirect to="/" />;
+    return (
+            props.ingredients ? (
+                <div>
+                    {purchasedRedirect}
+                    <CheckoutSummary 
+                        ingredients={props.ingredients} 
+                        checkoutCancelled={checkoutCancelled}
+                        checkoutContinued={checkoutContinued}
+                    />
+                    <Route path={`${props.match.path}/contact-data`} component={ContactData} />
+                </div>
+            ) : <Redirect to="/" />
+    );
 }
 
 const mapStateToProps = state => { 
