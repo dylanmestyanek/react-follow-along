@@ -4,10 +4,10 @@ import {
     AUTH_SUCCESS,
     AUTH_FAIL,
     AUTH_LOGOUT,
-    SET_AUTH_REDIRECT_PATH
+    SET_AUTH_REDIRECT_PATH,
 } from './actionsTypes';
 
-export const authorizeUser = (email, password, isSignIn) => dispatch => {
+export const authorizeUser = (email, password, isSignIn, history) => dispatch => {
     dispatch({ type: AUTH_START });
 
     let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCPgBpXoe9KGMYI9-0qlXSCz0Njgsm4mrU';
@@ -28,11 +28,11 @@ export const authorizeUser = (email, password, isSignIn) => dispatch => {
             localStorage.setItem('token', res.data.idToken);
             localStorage.setItem('tokenExpirationDate', expirationDate);
             localStorage.setItem('userId', res.data.localId);
-
+            console.log(history)
             dispatch({ type: AUTH_SUCCESS, userId: res.data.localId, token: res.data.idToken })
             setTimeout(() => {
                 dispatch(logout());
-            }, (+res.data.expiresIn * 10));
+            }, (+res.data.expiresIn * 1000));
         })
         .catch(error => {
             dispatch({ 
@@ -65,9 +65,8 @@ export const checkAuthState = () => dispatch => {
         dispatch(logout());
     } else {
         dispatch({ type: AUTH_SUCCESS, userId: userId, token: token })
-
         setTimeout(() => {
             dispatch(logout());
-        }, ((expirationDate.getTime() - new Date().getTime()) / 1000))
+        }, ((expirationDate.getTime() - new Date().getTime())))
     }
 }

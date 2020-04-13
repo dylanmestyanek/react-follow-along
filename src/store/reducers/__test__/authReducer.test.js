@@ -21,7 +21,12 @@ describe('Auth Reducer', () => {
     })
 
     it('should store token and userId upon successful login', () => {
-        const newState = reducer(undefined, { type: AUTH_SUCCESS, token: "test token", userId: "userId" });
+        const newState = reducer(undefined, { 
+            type: AUTH_SUCCESS, 
+            token: "test token", 
+            userId: "userId" 
+        });
+        
         expect(newState.token).toEqual('test token');
         expect(newState.userId).toEqual('userId');
     })

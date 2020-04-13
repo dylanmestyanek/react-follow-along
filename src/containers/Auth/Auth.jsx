@@ -80,7 +80,7 @@ class Auth extends Component {
     handleSubmit = e => {
         e.preventDefault();
         const { email, password } = this.state.controls;
-        this.props.authorizeUser(email.value, password.value, this.state.isSignIn);
+        this.props.authorizeUser(email.value, password.value, this.state.isSignIn, this.props.history);
     }
 
     toggleAuthMode = () => {
@@ -102,8 +102,8 @@ class Auth extends Component {
         return (
             !this.props.loading ? (
                 <AuthContainer>
-                    {this.props.isAuthenticated && <Redirect to={`${this.props.authRedirectPath}`} />}
-                    {this.props.error && <p>{this.props.error.title}: {this.props.error.details}</p>}
+                        {this.props.isAuthenticated && <Redirect to={`${this.props.authRedirectPath}`} />}
+                        {this.props.error && <p>{this.props.error.title}: {this.props.error.details}</p>}
                     <form onSubmit={this.handleSubmit}>
                         {
                             formElements.map(element => (

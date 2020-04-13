@@ -24,6 +24,7 @@ class App extends Component {
                   <Route path="/logout" component={lazy(() => import('./containers/Auth/Logout'))} />
                 </Suspense>
                 <Route path="/" exact component={BurgerBuilder} />
+                <Redirect to="/" />
               </>)}
             <Route path="/" exact component={BurgerBuilder} />
             <Suspense fallback={<h1>Loading...</h1>}>
