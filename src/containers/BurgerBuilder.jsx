@@ -17,6 +17,8 @@ import {
 } from '../store/actions/index';
 
 export const BurgerBuilder = props => {
+    const { fetchIngredients } = props;
+    
     const [burgerState, setBurgerState] = useState({
         ordering: false,
         loading: false,
@@ -25,8 +27,7 @@ export const BurgerBuilder = props => {
     
     useEffect(() => {
         props.fetchIngredients()
-        // eslint-disable-next-line
-    }, []);
+    }, [fetchIngredients]); 
     
     const ordering = () => {
         if (props.isAuthenticated) {

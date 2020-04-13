@@ -10,6 +10,8 @@ import Spinner from '../../components/UI/Spinner';
 import { checkValidity } from '../../utils/checkValidity';
 
 const Auth = props => { 
+      const { setAuthRedirectPath } = props;
+
     const [authState, setAuthState] = useState({
         controls: {
             email: {
@@ -51,8 +53,7 @@ const Auth = props => {
         if (!props.buildingBurger && props.authRedirectPath){
             props.setAuthRedirectPath();
         }
-        //eslint-disable-next-line
-    }, []);
+    }, [setAuthRedirectPath]);
 
     const handleInputChange = e => {
         const {name, value} = e.target;

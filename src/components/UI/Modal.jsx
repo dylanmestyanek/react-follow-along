@@ -1,30 +1,23 @@
-import React, { Component } from 'react';
+import React, { memo } from 'react';
 import Backdrop from './Backdrop';
 import styled from '@emotion/styled';
 
-class Modal extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.ordering !== this.props.ordering || nextProps.children !== this.props.children
-    }
-
-    render() {
-        return (
-            <>
-                <Backdrop ordering={this.props.ordering} stopOrdering={this.props.stopOrdering} />
-                <ModalContainer 
-                    style={{ 
-                        transform: this.props.ordering ? 'translateY(0)' : 'translateY(-100vh)',
-                        opacity: this.props.ordering ? '1' : '0'
-                    }}>
-                    {this.props.children}
-                </ModalContainer>
-            </>
-        );
-    }
-    
+const Modal = props => {
+    return (
+        <>
+            <Backdrop ordering={props.ordering} stopOrdering={props.stopOrdering} />
+            <ModalContainer 
+                style={{ 
+                    transform: props.ordering ? 'translateY(0)' : 'translateY(-100vh)',
+                    opacity: props.ordering ? '1' : '0'
+                }}>
+                {props.children}
+            </ModalContainer>
+        </>
+    );
 };
 
-export default Modal;
+export default memo(Modal, (prevProps, nextProps) => nextProps.ordering === prevProps.ordering && nextProps.children === prevProps.children);
 
 const ModalContainer = styled.div`
     position: fixed;

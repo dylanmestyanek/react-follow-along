@@ -7,10 +7,11 @@ import withErrorHandler from '../components/hoc/withErrorHandler';
 import { fetchOrders } from '../store/actions/index';
 import Spinner from '../components/UI/Spinner';
 const Orders = props => { 
+    const { fetchOrders } = props;
+
     useEffect(() => {
         props.fetchOrders(props.token, props.userId);
-        // eslint-disable-next-line
-    }, []);
+    }, [fetchOrders]);
 
     return (
         !props.loading ? (

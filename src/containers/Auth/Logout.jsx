@@ -5,10 +5,11 @@ import { Redirect } from 'react-router-dom';
 import { logout } from '../../store/actions/index';
 
 const Logout = props => {
+    const { logout } = props;
+
     useEffect(() => {
         props.logout();
-        //eslint-disable-next-line
-    }, [])
+    }, [logout])
 
     return (
         <Redirect to="/" />

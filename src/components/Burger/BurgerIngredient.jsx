@@ -1,48 +1,46 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-class BurgerIngredient extends Component {
+const BurgerIngredient = props => {
     
-    render() {
-        let ingredient = null;
+    let ingredient = null;
+    
+    switch (props.type) {
+        case('bread-bottom'):
+            ingredient = <BreadBottom></BreadBottom>;
+            break;
+            
+        case('bread-top'):
+            ingredient = (
+                <BreadTop>
+                    <SeedsOne></SeedsOne>
+                    <SeedsTwo></SeedsTwo>
+                </BreadTop>
+            );
+            break;
         
-        switch (this.props.type) {
-            case('bread-bottom'):
-                ingredient = <BreadBottom></BreadBottom>;
-                break;
-                
-            case('bread-top'):
-                ingredient = (
-                    <BreadTop>
-                        <SeedsOne></SeedsOne>
-                        <SeedsTwo></SeedsTwo>
-                    </BreadTop>
-                );
-                break;
-            
-            case('meat'):
-                ingredient = <Meat></Meat>;
-                break;
-            
-            case('cheese'):
-                ingredient = <Cheese></Cheese>;
-                break;
-            
-            case('salad'):
-                ingredient = <Salad></Salad>;
-                break;
+        case('meat'):
+            ingredient = <Meat></Meat>;
+            break;
+        
+        case('cheese'):
+            ingredient = <Cheese></Cheese>;
+            break;
+        
+        case('salad'):
+            ingredient = <Salad></Salad>;
+            break;
 
-            case('bacon'):
-                ingredient = <Bacon></Bacon>;
-                break;
+        case('bacon'):
+            ingredient = <Bacon></Bacon>;
+            break;
 
-            default:
-                break;
-        }
-
-        return ingredient;
+        default:
+            break;
     }
+
+    return ingredient;
 };
     
 BurgerIngredient.propTypes = {
