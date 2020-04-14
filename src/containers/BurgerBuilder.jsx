@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import Burger from '../components/Burger/Burger.jsx';
 import BuildControls from '../components/Burger/BuildControls.jsx';
